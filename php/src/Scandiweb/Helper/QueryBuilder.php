@@ -1,6 +1,6 @@
 <?php
 
-namespace Scandiweb\Persistence;
+namespace Scandiweb\Helper;
 
 class QueryBuilder{
 
@@ -16,7 +16,7 @@ class QueryBuilder{
         return $this;
     }
 
-    public function where(string ...$where): self{ 
+    public function where(string ...$where): self{
         $this->query.=$where === [] ? '' : 'WHERE '.implode(" AND ", $where);
         return $this;
     }

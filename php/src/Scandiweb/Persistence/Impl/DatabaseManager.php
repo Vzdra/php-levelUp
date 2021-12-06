@@ -1,9 +1,10 @@
 <?php
 
-namespace Scandiweb\Persistence;
+namespace Scandiweb\Persistence\Impl;
 
-use Scandiweb\Persistence\QueryBuilder;
+use Scandiweb\Helper\QueryBuilder;
 use Scandiweb\Model\AbstractProduct;
+use Scandiweb\Persistence\DatabaseManagerInterface;
 
 define("DB_HOST","db");
 define("DB_USER","user");
@@ -26,7 +27,7 @@ class DatabaseManager implements DatabaseManagerInterface{
     }
 
     public function insertProduct(AbstractProduct $product){
-        
+
     }
 
     public function selectProductsSortedBySKU(): string{
@@ -43,6 +44,8 @@ class DatabaseManager implements DatabaseManagerInterface{
 
         return $sql;
     }
+
+    
 }
 
 ?>

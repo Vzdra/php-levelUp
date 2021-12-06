@@ -3,7 +3,7 @@
 namespace Scandiweb\Services\Impl;
 
 use Scandiweb\Services\ProductServiceInterface;
-use Scandiweb\Persistence\DatabaseManager;
+use Scandiweb\Persistence\Impl\DatabaseManager;
 
 class ProductService implements ProductServiceInterface{
     private $dbManager = null;
