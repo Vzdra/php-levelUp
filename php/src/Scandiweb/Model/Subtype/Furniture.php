@@ -3,10 +3,8 @@
 namespace Scandiweb\Model\Subtype;
 
 use Scandiweb\Model\AbstractProduct;
-use Scandiweb\Model\ProductInterface;
-use Scandiweb\Persistence\QueryBuilder;
 
-class Book extends AbstractProduct implements ProductInterface{
+class Book extends AbstractProduct{
     private $dimensions;
 
     public function __construct($sku, $name, $price, $dimensions){
@@ -20,10 +18,6 @@ class Book extends AbstractProduct implements ProductInterface{
 
     public function setSizeInMB($dimensions){
         $this->dimensions = $dimensions;
-    }
-
-    public function customSave(&$queryBuilder): array{
-        return [];
     }
 }
 

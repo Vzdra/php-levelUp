@@ -3,9 +3,8 @@
 namespace Scandiweb\Model\Subtype;
 
 use Scandiweb\Model\AbstractProduct;
-use Scandiweb\Model\ProductInterface;
 
-class Book extends AbstractProduct implements ProductInterface{
+class Book extends AbstractProduct{
     private $weightInKG;
 
     public function __construct($sku, $name, $price, $weightInKG){
@@ -19,12 +18,6 @@ class Book extends AbstractProduct implements ProductInterface{
 
     public function setSizeInMB($weightInKG){
         $this->weightInKG = $weightInKG;
-    }
-
-    public function customSave(&$queryString): array{
-
-
-        return [];
     }
 }
 
