@@ -41,8 +41,6 @@ class DatabaseManager implements DatabaseManagerInterface{
         ->space()->orderBy("sku", "ASC")
         ->end()->getQuery();
 
-        echo $sql;
-
         return $sql;
     }
 }

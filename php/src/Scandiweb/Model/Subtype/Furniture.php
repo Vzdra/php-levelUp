@@ -4,6 +4,7 @@ namespace Scandiweb\Model\Subtype;
 
 use Scandiweb\Model\AbstractProduct;
 use Scandiweb\Model\ProductInterface;
+use Scandiweb\Persistence\QueryBuilder;
 
 class Book extends AbstractProduct implements ProductInterface{
     private $dimensions;
@@ -21,8 +22,8 @@ class Book extends AbstractProduct implements ProductInterface{
         $this->dimensions = $dimensions;
     }
 
-    public function saveProduct(&$connection): bool{
-        return true;
+    public function customSave(&$queryBuilder): array{
+        return [];
     }
 }
 

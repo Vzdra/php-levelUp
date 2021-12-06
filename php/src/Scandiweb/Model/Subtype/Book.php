@@ -21,10 +21,10 @@ class Book extends AbstractProduct implements ProductInterface{
         $this->weightInKG = $weightInKG;
     }
 
-    public function saveProduct(&$connection): bool{
+    public function customSave(&$queryString): array{
 
 
-        return true;
+        return [];
     }
 }
 

@@ -21,7 +21,7 @@ class Dvd extends AbstractProduct implements ProductInterface{
         $this->sizeInMb = $sizeInMb;
     }
 
-    public function saveProduct(&$connection): bool{
+    public function customSave(&$queryString): array{
 
 
         return true;
