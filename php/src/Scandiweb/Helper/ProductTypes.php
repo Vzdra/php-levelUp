@@ -3,9 +3,9 @@
 namespace Scandiweb\Helper;
 
 $productTypes = [
-    "dvd" => "\Scandiweb\Model\Dvd",
-    "book" => "\Scandiweb\Model\Book",
-    "furniture" => "\Scandiweb\Model\Furniture"
+    "dvd" => "Scandiweb\Model\Subtype\Dvd",
+    "book" => "Scandiweb\Model\Subtype\Book",
+    "furniture" => "Scandiweb\Model\Subtype\Furniture"
 ]
 
 ?>

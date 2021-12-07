@@ -2,8 +2,12 @@
 
 namespace Scandiweb\Persistence\Impl;
 
+use mysqli;
 use Scandiweb\Helper\QueryBuilder;
 use Scandiweb\Model\AbstractProduct;
+use Scandiweb\Model\Subtype\Book;
+use Scandiweb\Model\Subtype\Dvd;
+use Scandiweb\Model\Subtype\Furniture;
 use Scandiweb\Persistence\DatabaseManagerInterface;
 
 define("DB_HOST","db");
@@ -11,9 +15,9 @@ define("DB_USER","user");
 define("DB_PASS","user");
 define("DB_NAME","product_db");
 define("PRODUCT_TABLE", "products");
-define("DVD_TABLE", "products");
-define("BOOK_TABLE", "products");
-define("FURNITURE_TABLE", "products");
+define("DVD_TABLE", "dvd");
+define("BOOK_TABLE", "book");
+define("FURNITURE_TABLE", "furniture");
 define("SKU", "sku");
 
 class DatabaseManager implements DatabaseManagerInterface{
@@ -30,19 +34,12 @@ class DatabaseManager implements DatabaseManagerInterface{
 
     }
 
-    public function selectProductsSortedBySKU(): string{
-        $sql = $this->queryBuilder->select("*")
-        ->space()->from(PRODUCT_TABLE)
-        ->space()->innerJoin(DVD_TABLE)
-        ->space()->on("sku")
-        ->space()->innerJoin(BOOK_TABLE)
-        ->space()->on("sku")
-        ->space()->innerJoin(FURNITURE_TABLE)
-        ->space()->on("sku")
-        ->space()->orderBy("sku", "ASC")
-        ->end()->getQuery();
+    public function selectProductsSortedBySKU(){
+        $books = $this->connection->query(Book::getPullQuery("products"));
+        $dvds = $this->connection->query(Dvd::getPullQuery("products"));
+        $furniture = $this->connection->query(Furniture::getPullQuery("products"));
 
-        return $sql;
+        echo $books;
     }
 
     

@@ -37,7 +37,7 @@ class QueryBuilder{
     }
 
     public function insert(string $table, array $columns): self{
-        $this->query.="INSERT INTO ".$table." (".implode(", ", $columns).")";
+        $this->query.="INSERT INTO ".empty($table.$columns) ? "" : " (".implode(", ", $columns).")";
         return $this;
     }
 

@@ -36,6 +36,9 @@ abstract class AbstractProduct{
     public function setPrice($price){
         $this->price = $price;
     }
+
+    public abstract function getSaveQuery($mainTable): array;
+    public static abstract function getPullQuery($mainTable): string;
 }
 
 ?>
