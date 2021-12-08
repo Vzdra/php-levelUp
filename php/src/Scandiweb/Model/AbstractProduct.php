@@ -38,7 +38,8 @@ abstract class AbstractProduct{
     }
 
     public abstract function getSaveQuery($mainTable): array;
-    public static abstract function getPullQuery($mainTable): string;
+    public static abstract function getPullQuery($mainTable, $subTable): string;
+    public abstract function toString();
 }
 
 ?>

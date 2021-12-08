@@ -2,23 +2,14 @@
 
 namespace Scandiweb\Persistence\Impl;
 
-use mysqli;
 use Scandiweb\Helper\QueryBuilder;
+use Scandiweb\Helper\ProductSort;
 use Scandiweb\Model\AbstractProduct;
 use Scandiweb\Model\Subtype\Book;
 use Scandiweb\Model\Subtype\Dvd;
 use Scandiweb\Model\Subtype\Furniture;
 use Scandiweb\Persistence\DatabaseManagerInterface;
-
-define("DB_HOST","db");
-define("DB_USER","user");
-define("DB_PASS","user");
-define("DB_NAME","product_db");
-define("PRODUCT_TABLE", "products");
-define("DVD_TABLE", "dvd");
-define("BOOK_TABLE", "book");
-define("FURNITURE_TABLE", "furniture");
-define("SKU", "sku");
+use Scandiweb\Persistence\Configuration\Config;
 
 class DatabaseManager implements DatabaseManagerInterface{
 
@@ -27,19 +18,40 @@ class DatabaseManager implements DatabaseManagerInterface{
 
     public function __construct(){
         $this->queryBuilder = new QueryBuilder();
-        $this->connection = new \mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        $this->connection = new \mysqli(Config::DB_HOST, Config::DB_USER, Config::DB_PASS, Config::DB_NAME);
     }
 
     public function insertProduct(AbstractProduct $product){
-
+        
     }
 
     public function selectProductsSortedBySKU(){
-        $books = $this->connection->query(Book::getPullQuery("products"));
-        $dvds = $this->connection->query(Dvd::getPullQuery("products"));
-        $furniture = $this->connection->query(Furniture::getPullQuery("products"));
+        $itemArray = [];
 
-        echo $books;
+        $books = $this->connection->query(Book::getPullQuery(Config::PRODUCT_TABLE, Config::BOOK_TABLE));
+        $dvds = $this->connection->query(Dvd::getPullQuery(Config::PRODUCT_TABLE, Config::DVD_TABLE));
+        $furniture = $this->connection->query(Furniture::getPullQuery(Config::PRODUCT_TABLE, Config::FURNITURE_TABLE));
+
+        $this->insertToArray($itemArray, $books, Config::WEIGHT_KG, Book::class);
+        $this->insertToArray($itemArray, $dvds, Config::SIZE_MB, Dvd::class);
+        $this->insertToArray($itemArray, $furniture, Config::DIMENSIONS, Furniture::class);
+
+        $prodSorter = new ProductSort();
+        $prodSorter->sortProducts($itemArray);
+
+        foreach ($itemArray as $value){
+            echo $value->toString()."<br>";
+        }
+    }
+
+
+    private function insertToArray(&$array, $result, $thirdValueName, $class){
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $product = new $class($row[Config::SKU], $row[Config::PROD_NAME], $row[Config::PRICE], $row[$thirdValueName]);
+                array_push($array, $product);
+            }
+        }
     }
 
     
