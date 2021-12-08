@@ -22,7 +22,7 @@ class DatabaseManager implements DatabaseManagerInterface{
 
     public function insertProduct(AbstractProduct $product){
         $sql = $product->getSaveQuery(Config::PRODUCT_TABLE);
-        echo $sql;
+        echo $sql[0];
     }
 
     public function selectProductsSortedBySKU(){

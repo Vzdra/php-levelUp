@@ -5,6 +5,7 @@ namespace Scandiweb\Services\Impl;
 use Scandiweb\Services\ProductServiceInterface;
 use Scandiweb\Persistence\Impl\DatabaseManager;
 use Scandiweb\Helper\ProductSort;
+use Scandiweb\Helper\ProductTypes;
 
 class ProductService implements ProductServiceInterface{
     private $dbManager = null;
@@ -23,9 +24,12 @@ class ProductService implements ProductServiceInterface{
         return $products;
     }
 
-    public function saveProduct(): bool{
-        
-        return false;
+    public function saveProduct($sku, $name, $price, $attribute, $type): bool{
+        $class = ProductTypes::PRODUCT_TYPES[$type];
+        $product = new $class($sku, $name, $price, $attribute);
+        $this->dbManager->insertProduct($product);
+
+        return true;
     }
 
     public function deleteProduct($id): bool{
