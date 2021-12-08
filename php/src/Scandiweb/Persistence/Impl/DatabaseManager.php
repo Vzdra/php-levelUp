@@ -3,7 +3,6 @@
 namespace Scandiweb\Persistence\Impl;
 
 use Scandiweb\Helper\QueryBuilder;
-use Scandiweb\Helper\ProductSort;
 use Scandiweb\Model\AbstractProduct;
 use Scandiweb\Model\Subtype\Book;
 use Scandiweb\Model\Subtype\Dvd;
@@ -22,7 +21,8 @@ class DatabaseManager implements DatabaseManagerInterface{
     }
 
     public function insertProduct(AbstractProduct $product){
-        
+        $sql = $product->getSaveQuery(Config::PRODUCT_TABLE);
+        echo $sql;
     }
 
     public function selectProductsSortedBySKU(){
@@ -32,16 +32,11 @@ class DatabaseManager implements DatabaseManagerInterface{
         $dvds = $this->connection->query(Dvd::getPullQuery(Config::PRODUCT_TABLE, Config::DVD_TABLE));
         $furniture = $this->connection->query(Furniture::getPullQuery(Config::PRODUCT_TABLE, Config::FURNITURE_TABLE));
 
+        $this->insertToArray($itemArray, $furniture, Config::DIMENSIONS, Furniture::class);
         $this->insertToArray($itemArray, $books, Config::WEIGHT_KG, Book::class);
         $this->insertToArray($itemArray, $dvds, Config::SIZE_MB, Dvd::class);
-        $this->insertToArray($itemArray, $furniture, Config::DIMENSIONS, Furniture::class);
 
-        $prodSorter = new ProductSort();
-        $prodSorter->sortProducts($itemArray);
-
-        foreach ($itemArray as $value){
-            echo $value->toString()."<br>";
-        }
+        return $itemArray;
     }
 
 

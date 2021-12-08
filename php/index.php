@@ -6,7 +6,7 @@ require __DIR__ . '/autoloader.php';
 
 $service = new ProductService();
 
-echo $service->listAllProducts();
+echo $service->saveProduct();
 // echo $productService->listAllProducts();
 
 // use Scandiweb\Services\ProductService;

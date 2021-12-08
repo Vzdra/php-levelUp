@@ -4,6 +4,7 @@ namespace Scandiweb\Services\Impl;
 
 use Scandiweb\Services\ProductServiceInterface;
 use Scandiweb\Persistence\Impl\DatabaseManager;
+use Scandiweb\Helper\ProductSort;
 
 class ProductService implements ProductServiceInterface{
     private $dbManager = null;
@@ -13,13 +14,17 @@ class ProductService implements ProductServiceInterface{
         $this->dbManager = new DatabaseManager();
     }
 
-    public function listAllProducts(): string{
-        $this->dbManager->selectProductsSortedBySKU();
-        return "";
+    public function listAllProducts(): array{
+        $products = $this->dbManager->selectProductsSortedBySKU();
+
+        $prodSorter = new ProductSort();
+        $prodSorter->sortProducts($products);
+
+        return $products;
     }
 
     public function saveProduct(): bool{
-
+        
         return false;
     }
 

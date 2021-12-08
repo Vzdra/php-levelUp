@@ -10,7 +10,7 @@ class ProductSort{
         return strcmp($a->getSKU(), $b->getSKU());
     }
 
-    public function sortProducts(array $products){
+    public function sortProducts(array &$products){
         usort($products, array($this, "cmp"));
     }
 }
