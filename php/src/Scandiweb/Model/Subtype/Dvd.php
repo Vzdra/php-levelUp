@@ -24,7 +24,7 @@ class Dvd extends AbstractProduct{
     public function getSaveQuery($mainTable): array{
         $qb = new QueryBuilder();
         $t1 = $qb->insert($mainTable, [])->space()->values($this->sku, $this->name, $this->price)->end()->getQuery();
-        $t2 = $qb->insert("dvd", [])->space()->values($this->sku, $this->weightInKG)->end()->getQuery();
+        $t2 = $qb->insert("dvd", [])->space()->values($this->sku, $this->sizeInMb)->end()->getQuery();
         return [$t1, $t2];
     }
 

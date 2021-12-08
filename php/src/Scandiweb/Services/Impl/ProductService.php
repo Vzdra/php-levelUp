@@ -24,9 +24,10 @@ class ProductService implements ProductServiceInterface{
         return $products;
     }
 
-    public function saveProduct($sku, $name, $price, $attribute, $type): bool{
+    public function saveProduct($sku, $prodName, $price, $attribute, $type): bool{
         $class = ProductTypes::PRODUCT_TYPES[$type];
-        $product = new $class($sku, $name, $price, $attribute);
+        $product = new $class($sku, $prodName, $price, $attribute);
+
         $this->dbManager->insertProduct($product);
 
         return true;

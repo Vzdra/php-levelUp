@@ -22,7 +22,8 @@ class DatabaseManager implements DatabaseManagerInterface{
 
     public function insertProduct(AbstractProduct $product){
         $sql = $product->getSaveQuery(Config::PRODUCT_TABLE);
-        echo $sql[0];
+        // $q1 = $this->connection->query($sql[0]);
+        // $q2 = $this->connection->query($sql[1]);
     }
 
     public function selectProductsSortedBySKU(){
