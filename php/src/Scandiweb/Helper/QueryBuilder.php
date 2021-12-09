@@ -41,6 +41,11 @@ class QueryBuilder{
         return $this;
     }
 
+    public function delete(string $table){
+        $this->query.="DELETE FROM ".$table;
+        return $this;
+    }
+
     public function values(...$values): self{
         $this->query.="VALUES ('".implode("', '", $values)."')";
         return $this;

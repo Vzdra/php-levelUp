@@ -5,5 +5,4 @@ use Scandiweb\Services\Impl\ProductService;
 
 $service = new ProductService();
 
-
 ?>

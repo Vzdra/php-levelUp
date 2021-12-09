@@ -28,6 +28,13 @@ class Furniture extends AbstractProduct{
         return [$t1, $t2];
     }
 
+    public static function getRemoveQuery($mainTable, $requestedSku): array{
+        $qb = new QueryBuilder();
+        $t1 = $qb->delete($mainTable)->space()->where($mainTable.".sku='".$requestedSku."'")->end()->getQuery();
+        $t2 = $qb->delete("furniture")->space()->where("furniture.sku='".$requestedSku."'")->end()->getQuery();
+        return [$t1, $t2];
+    }
+
     public static function getPullQuery($mainTable, $subTable): string{
         $qb = new QueryBuilder();
         $t1 = $qb->select("*")->space()->from($mainTable)->space()->innerJoin($subTable)->space()->on($mainTable.".sku=".$subTable.".sku")->end()->getQuery();

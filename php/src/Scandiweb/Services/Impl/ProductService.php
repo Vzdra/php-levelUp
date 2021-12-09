@@ -33,11 +33,9 @@ class ProductService implements ProductServiceInterface{
         return true;
     }
 
-    public function deleteProduct($id): bool{
-        return false;
-    }
-    public function deleteProducts(array $ids): array{
-        return [];
+    public function deleteProducts(array $skus): bool{
+        $this->dbManager->deleteProductsByIds($skus);
+        return true;
     }
 }
 

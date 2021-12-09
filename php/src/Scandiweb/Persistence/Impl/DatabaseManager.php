@@ -40,15 +40,29 @@ class DatabaseManager implements DatabaseManagerInterface{
         $dvds = $this->connection->query(Dvd::getPullQuery(Config::PRODUCT_TABLE, Config::DVD_TABLE));
         $furniture = $this->connection->query(Furniture::getPullQuery(Config::PRODUCT_TABLE, Config::FURNITURE_TABLE));
 
-        $this->insertToArray($itemArray, $furniture, Config::DIMENSIONS, Furniture::class);
-        $this->insertToArray($itemArray, $books, Config::WEIGHT_KG, Book::class);
-        $this->insertToArray($itemArray, $dvds, Config::SIZE_MB, Dvd::class);
+        $this->insertToSelectArray($itemArray, $furniture, Config::DIMENSIONS, Furniture::class);
+        $this->insertToSelectArray($itemArray, $books, Config::WEIGHT_KG, Book::class);
+        $this->insertToSelectArray($itemArray, $dvds, Config::SIZE_MB, Dvd::class);
 
         return $itemArray;
     }
 
+    public function deleteProductsByIds(array $skus){
+        foreach($skus as $sk){
+            $bookRem = Book::getRemoveQuery(Config::PRODUCT_TABLE, $sk);
+            $dvdRem = Dvd::getRemoveQuery(Config::PRODUCT_TABLE, $sk);
+            $furnRem = Furniture::getRemoveQuery(Config::PRODUCT_TABLE, $sk);
 
-    private function insertToArray(&$array, $result, $thirdValueName, $class){
+            $arr = array_merge($bookRem, $dvdRem, $furnRem);
+
+            foreach($arr as $a){
+                $this->connection->query($a);
+            }
+        }
+    }
+
+
+    private function insertToSelectArray(&$array, $result, $thirdValueName, $class){
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
                 $product = new $class($row[Config::SKU], $row[Config::PROD_NAME], $row[Config::PRICE], $row[$thirdValueName]);
