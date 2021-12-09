@@ -3,6 +3,7 @@
 namespace Scandiweb\Persistence\Impl;
 
 use mysqli;
+use mysqli_result;
 use Scandiweb\Helper\QueryBuilder;
 use Scandiweb\Model\AbstractProduct;
 use Scandiweb\Model\Subtype\Book;
@@ -16,7 +17,7 @@ class DatabaseManager implements DatabaseManagerInterface{
     private $connection = null;
 
     public function __construct(){
-        $this->connection = new \mysqli(Config::DB_HOST, Config::DB_USER, Config::DB_PASS, Config::DB_NAME);
+        $this->connection = new mysqli(Config::DB_HOST, Config::DB_USER, Config::DB_PASS, Config::DB_NAME);
     }
 
     public function insertProduct(AbstractProduct $product){
