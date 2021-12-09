@@ -2,6 +2,7 @@
 
 namespace Scandiweb\Persistence\Impl;
 
+use mysqli;
 use Scandiweb\Helper\QueryBuilder;
 use Scandiweb\Model\AbstractProduct;
 use Scandiweb\Model\Subtype\Book;
@@ -13,17 +14,22 @@ use Scandiweb\Persistence\Configuration\Config;
 class DatabaseManager implements DatabaseManagerInterface{
 
     private $connection = null;
-    private $queryBuilder = null;
 
     public function __construct(){
-        $this->queryBuilder = new QueryBuilder();
         $this->connection = new \mysqli(Config::DB_HOST, Config::DB_USER, Config::DB_PASS, Config::DB_NAME);
     }
 
     public function insertProduct(AbstractProduct $product){
         $sql = $product->getSaveQuery(Config::PRODUCT_TABLE);
-        // $q1 = $this->connection->query($sql[0]);
-        // $q2 = $this->connection->query($sql[1]);
+        
+        mysqli_query($this->connection, $sql[0]);
+
+        if(mysqli_affected_rows($this->connection) != -1){
+            mysqli_query($this->connection, $sql[1]);
+            return true;
+        }
+
+        return false;
     }
 
     public function selectProductsSortedBySKU(){

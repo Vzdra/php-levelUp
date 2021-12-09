@@ -25,7 +25,6 @@ class Furniture extends AbstractProduct{
         $qb = new QueryBuilder();
         $t1 = $qb->insert($mainTable, [])->space()->values($this->sku, $this->name, $this->price)->end()->getQuery();
         $t2 = $qb->insert("furniture", [])->space()->values($this->sku, $this->dimensions)->end()->getQuery();
-        echo $t2;
         return [$t1, $t2];
     }
 
