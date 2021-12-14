@@ -39,7 +39,7 @@ abstract class AbstractProduct{
 
     public abstract function getSaveQuery($mainTable): array;
     public static abstract function getPullQuery($mainTable, $subTable): string;
-    public static abstract function getRemoveQuery($mainTable, $requestedSku): array;
+    public static abstract function getRemoveQuery($requestedSku): string;
     public abstract function toString();
 }
 

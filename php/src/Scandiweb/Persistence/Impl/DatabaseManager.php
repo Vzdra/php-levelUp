@@ -49,18 +49,19 @@ class DatabaseManager implements DatabaseManagerInterface{
 
     public function deleteProductsByIds(array $skus){
         foreach($skus as $sk){
-            $bookRem = Book::getRemoveQuery(Config::PRODUCT_TABLE, $sk);
-            $dvdRem = Dvd::getRemoveQuery(Config::PRODUCT_TABLE, $sk);
-            $furnRem = Furniture::getRemoveQuery(Config::PRODUCT_TABLE, $sk);
+            $qb = new QueryBuilder();
+            $productRem = $qb->delete(Config::PRODUCT_TABLE)->space()->where(Config::PRODUCT_TABLE.".sku='".$sk."'")->end()->getQuery();
 
-            $arr = array_merge($bookRem, $dvdRem, $furnRem);
+            $bookRem = Book::getRemoveQuery($sk);
+            $dvdRem = Dvd::getRemoveQuery($sk);
+            $furnRem = Furniture::getRemoveQuery($sk);
 
-            foreach($arr as $a){
-                $this->connection->query($a);
-            }
+            mysqli_query($this->connection, $bookRem);
+            mysqli_query($this->connection, $furnRem);
+            mysqli_query($this->connection, $dvdRem);
+            mysqli_query($this->connection, $productRem);
         }
     }
-
 
     private function insertToSelectArray(&$array, $result, $thirdValueName, $class){
         if($result->num_rows > 0){
